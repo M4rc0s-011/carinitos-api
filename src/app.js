@@ -14,7 +14,16 @@ const sanitize         = require('./middlewares/sanitize.middleware')
 const app = express()
 
 app.use(helmet())
-app.use(cors())
+app.use(cors({
+  origin: [
+    'http://localhost:5173',
+    'https://xn--cariitosbyjossy-1qb.com',
+    'https://carinitos-frontend-git-main-m4rc0s-011s-projects.vercel.app',
+    'https://carinitos-frontend-azwia8dt1-m4rc0s-011s-projects.vercel.app',
+    process.env.FRONTEND_URL,
+  ].filter(Boolean),
+  credentials: true,
+}))
 app.use(express.json())
 app.use(apiLimiter)
 app.use(sanitize)
