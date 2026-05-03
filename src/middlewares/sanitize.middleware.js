@@ -14,8 +14,20 @@ function sanitizeValue(val, key) {
 }
 
 module.exports = (req, res, next) => {
-  req.body   = sanitizeValue(req.body)
-  req.params = sanitizeValue(req.params)
-  req.query  = sanitizeValue(req.query)
+  if (req.body && typeof req.body === 'object') {
+    req.body = Object.fromEntries(
+      Object.entries(req.body).map(([k, v]) => [k, sanitizeValue(v, k)])
+    )
+  }
+  if (req.params && typeof req.params === 'object') {
+    req.params = Object.fromEntries(
+      Object.entries(req.params).map(([k, v]) => [k, sanitizeValue(v, k)])
+    )
+  }
+  if (req.query && typeof req.query === 'object') {
+    req.query = Object.fromEntries(
+      Object.entries(req.query).map(([k, v]) => [k, sanitizeValue(v, k)])
+    )
+  }
   next()
 }
