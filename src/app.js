@@ -15,13 +15,18 @@ const app = express()
 
 app.use(helmet())
 app.use(cors({
-  origin: [
-    'http://localhost:5173',
-    'https://xn--cariitosbyjossy-1qb.com',
-    'https://carinitos-frontend-git-main-m4rc0s-011s-projects.vercel.app',
-    'https://carinitos-frontend-azwia8dt1-m4rc0s-011s-projects.vercel.app',
-    process.env.FRONTEND_URL,
-  ].filter(Boolean),
+  origin: (origin, callback) => {
+    const allowed = [
+      'http://localhost:5173',
+      'https://xn--cariitosbyjossy-1qb.com',
+      process.env.FRONTEND_URL,
+    ]
+    if (!origin || allowed.includes(origin) || origin.endsWith('.vercel.app')) {
+      callback(null, true)
+    } else {
+      callback(new Error('Not allowed by CORS'))
+    }
+  },
   credentials: true,
 }))
 app.use(express.json())
