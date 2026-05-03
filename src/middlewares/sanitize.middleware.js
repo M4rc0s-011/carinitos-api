@@ -1,11 +1,13 @@
 const { escape } = require('validator')
 
-function sanitizeValue(val) {
-  if (typeof val === 'string') return escape(val)
-  if (Array.isArray(val)) return val.map(sanitizeValue)
+const EMAIL_FIELDS = new Set(['email'])
+
+function sanitizeValue(val, key) {
+  if (typeof val === 'string') return EMAIL_FIELDS.has(key) ? val.trim() : escape(val)
+  if (Array.isArray(val)) return val.map((v) => sanitizeValue(v, key))
   if (val !== null && typeof val === 'object') {
     return Object.fromEntries(
-      Object.entries(val).map(([k, v]) => [k, sanitizeValue(v)])
+      Object.entries(val).map(([k, v]) => [k, sanitizeValue(v, k)])
     )
   }
   return val
