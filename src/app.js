@@ -15,21 +15,13 @@ const app = express()
 
 app.set('trust proxy', 1)
 app.use(helmet())
-app.options('/(.*)', (req, res) => {
-  res.set('Access-Control-Allow-Origin', req.headers.origin || '*')
-  res.set('Access-Control-Allow-Methods', 'GET,POST,PUT,PATCH,DELETE,OPTIONS')
-  res.set('Access-Control-Allow-Headers', 'Content-Type,Authorization')
-  res.set('Access-Control-Allow-Credentials', 'true')
-  res.set('Access-Control-Max-Age', '86400')
-  res.sendStatus(204)
-})
 app.use(cors({
   origin: (origin, callback) => {
     const allowed = [
       'http://localhost:5173',
       'https://xn--cariitosbyjossy-1qb.com',
       process.env.FRONTEND_URL,
-    ]
+    ].filter(Boolean)
     if (!origin || allowed.includes(origin) || origin.endsWith('.vercel.app')) {
       callback(null, true)
     } else {
@@ -38,6 +30,8 @@ app.use(cors({
   },
   credentials: true,
   maxAge: 86400,
+  preflightContinue: false,
+  optionsSuccessStatus: 204,
 }))
 app.use(express.json())
 app.use(apiLimiter)
