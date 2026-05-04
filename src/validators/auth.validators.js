@@ -15,8 +15,7 @@ const validarRegistro = [
     .notEmpty().withMessage('El nombre es obligatorio'),
   body('email')
     .trim()
-    .isEmail().withMessage('Email inválido')
-    .normalizeEmail(),
+    .isEmail().withMessage('Email inválido'),
   body('password')
     .isLength({ min: 8 }).withMessage('La contraseña debe tener al menos 8 caracteres'),
   manejarErrores,
@@ -25,8 +24,7 @@ const validarRegistro = [
 const validarLogin = [
   body('email')
     .trim()
-    .isEmail().withMessage('Email inválido')
-    .normalizeEmail(),
+    .isEmail().withMessage('Email inválido'),
   body('password')
     .notEmpty().withMessage('La contraseña es obligatoria'),
   manejarErrores,
