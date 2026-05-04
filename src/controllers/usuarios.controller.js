@@ -10,16 +10,6 @@ const listar = async (req, res) => {
   }
 }
 
-const limpiar = async (req, res) => {
-  try {
-    const eliminados = await Usuario.deletePrueba()
-    return res.json({ ok: true, data: { eliminados } })
-  } catch (err) {
-    console.error('[limpiar usuarios]', err)
-    return res.status(500).json({ ok: false, error: 'Error interno del servidor' })
-  }
-}
-
 const eliminar = async (req, res) => {
   try {
     const id = Number(req.params.id)
@@ -37,4 +27,4 @@ const eliminar = async (req, res) => {
   }
 }
 
-module.exports = { listar, limpiar, eliminar }
+module.exports = { listar, eliminar }

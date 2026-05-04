@@ -56,14 +56,4 @@ const findAll = async () => {
   return rows
 }
 
-const deletePrueba = async () => {
-  const [result] = await pool.execute(
-    `DELETE FROM usuarios
-     WHERE rol = 'usuario'
-       AND (nombre LIKE '%prueba%' OR nombre LIKE '%test%'
-            OR email LIKE '%prueba%' OR email LIKE '%test%')`
-  )
-  return result.affectedRows
-}
-
-module.exports = { findByEmail, findById, create, findByToken, marcarVerificado, findAll, deleteById, deletePrueba }
+module.exports = { findByEmail, findById, create, findByToken, marcarVerificado, findAll, deleteById }
