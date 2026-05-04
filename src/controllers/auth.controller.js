@@ -24,7 +24,9 @@ const registro = async (req, res) => {
       token_verificacion_expira: expira,
     })
 
-    await emailService.enviarVerificacion(email, nombre, tokenVerif)
+    emailService.enviarVerificacion(email, nombre, tokenVerif).catch((err) =>
+      console.error('[registro] Error enviando email:', err.message)
+    )
 
     return res.status(201).json({ ok: true })
   } catch (err) {
