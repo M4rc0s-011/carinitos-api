@@ -29,6 +29,7 @@ app.use(cors({
     }
   },
   credentials: true,
+  maxAge: 86400,
 }))
 app.use(express.json())
 app.use(apiLimiter)
