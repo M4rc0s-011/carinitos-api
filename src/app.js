@@ -15,7 +15,7 @@ const app = express()
 
 app.set('trust proxy', 1)
 app.use(helmet())
-app.options('*', (req, res) => {
+app.options('/(.*)', (req, res) => {
   res.set('Access-Control-Allow-Origin', req.headers.origin || '*')
   res.set('Access-Control-Allow-Methods', 'GET,POST,PUT,PATCH,DELETE,OPTIONS')
   res.set('Access-Control-Allow-Headers', 'Content-Type,Authorization')
