@@ -36,17 +36,13 @@ const registro = async (req, res) => {
 const login = async (req, res) => {
   try {
     const { email, password } = req.body
-    console.log('[login] email recibido:', email)
 
     const encontrado = await Usuario.findByEmail(email)
-    console.log('[login] usuario encontrado:', encontrado ? 'sí' : 'no')
     if (!encontrado) {
       return res.status(401).json({ ok: false, error: 'Credenciales inválidas' })
     }
 
     const coincide = await bcrypt.compare(password, encontrado.password)
-    console.log('[login] password match:', coincide)
-    console.log('[login] email verificado:', encontrado.email_verificado)
     if (!coincide) {
       return res.status(401).json({ ok: false, error: 'Credenciales inválidas' })
     }
