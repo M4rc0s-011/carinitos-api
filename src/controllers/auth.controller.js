@@ -76,9 +76,13 @@ const verificarEmail = async (req, res) => {
       return res.status(400).json({ ok: false, error: 'Token requerido' })
     }
 
-    console.log('Token recibido:', token)
-    console.log('Hora actual:', new Date().toISOString())
+    console.log('[verificar] token recibido:', token)
     const usuario = await Usuario.findByToken(token)
+    console.log('[verificar] usuario encontrado:', usuario ? usuario.id : 'no')
+    if (usuario) {
+      console.log('[verificar] expira:', usuario.token_verificacion_expira)
+      console.log('[verificar] ahora:', new Date())
+    }
     if (!usuario) {
       return res.status(400).json({ ok: false, error: 'Token inválido o expirado' })
     }

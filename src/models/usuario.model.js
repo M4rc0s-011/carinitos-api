@@ -28,7 +28,7 @@ const create = async ({ nombre, email, password, token_verificacion, token_verif
 
 const findByToken = async (token) => {
   const [rows] = await pool.execute(
-    'SELECT id, email_verificado FROM usuarios WHERE token_verificacion = ? AND token_verificacion_expira > NOW()',
+    'SELECT id, email_verificado, token_verificacion_expira FROM usuarios WHERE token_verificacion = ? AND token_verificacion_expira > NOW()',
     [token]
   )
   console.log('Resultado findByToken:', rows)
