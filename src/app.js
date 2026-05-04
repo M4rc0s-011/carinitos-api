@@ -15,6 +15,14 @@ const app = express()
 
 app.set('trust proxy', 1)
 app.use(helmet())
+app.options('*', (req, res) => {
+  res.set('Access-Control-Allow-Origin', req.headers.origin || '*')
+  res.set('Access-Control-Allow-Methods', 'GET,POST,PUT,PATCH,DELETE,OPTIONS')
+  res.set('Access-Control-Allow-Headers', 'Content-Type,Authorization')
+  res.set('Access-Control-Allow-Credentials', 'true')
+  res.set('Access-Control-Max-Age', '86400')
+  res.sendStatus(204)
+})
 app.use(cors({
   origin: (origin, callback) => {
     const allowed = [
