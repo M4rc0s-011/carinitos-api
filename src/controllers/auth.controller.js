@@ -24,10 +24,7 @@ const registro = async (req, res) => {
       token_verificacion_expira: expira,
     })
 
-    console.log('[registro] Intentando enviar email a:', email)
-    emailService.enviarVerificacion(email, nombre, tokenVerif).then(() => {
-      console.log('[registro] Email enviado exitosamente a:', email)
-    }).catch((err) => {
+    emailService.enviarVerificacion(email, nombre, tokenVerif).catch((err) => {
       console.error('[registro] Error enviando email:', err.message)
     })
 
@@ -76,13 +73,7 @@ const verificarEmail = async (req, res) => {
       return res.status(400).json({ ok: false, error: 'Token requerido' })
     }
 
-    console.log('[verificar] token recibido:', token)
     const usuario = await Usuario.findByToken(token)
-    console.log('[verificar] usuario encontrado:', usuario ? usuario.id : 'no')
-    if (usuario) {
-      console.log('[verificar] expira:', usuario.token_verificacion_expira)
-      console.log('[verificar] ahora:', new Date())
-    }
     if (!usuario) {
       return res.status(400).json({ ok: false, error: 'Token inválido o expirado' })
     }

@@ -31,7 +31,6 @@ const findByToken = async (token) => {
     'SELECT id, email_verificado, token_verificacion_expira FROM usuarios WHERE token_verificacion = ? AND token_verificacion_expira > NOW()',
     [token]
   )
-  console.log('Resultado findByToken:', rows)
   return rows[0] ?? null
 }
 
